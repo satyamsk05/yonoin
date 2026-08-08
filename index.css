@@ -117,6 +117,7 @@ header {
 .logo-text {
   background: linear-gradient(135deg, var(--text-primary) 30%, var(--color-gold) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-background-fill-color: transparent;
   -webkit-text-fill-color: transparent;
 }
@@ -177,7 +178,9 @@ header {
 .hero-title span {
   background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-emerald) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   -webkit-text-fill-color: transparent;
 }
 
