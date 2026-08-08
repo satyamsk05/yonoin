@@ -19,7 +19,7 @@ function generateSlug(name) {
     .replace(/(^-|-$)+/g, '');
 }
 
-// HTML Template function
+// HTML Template function for game detail page
 function generateHTML(app) {
   const logoSrc = app.logo ? `../logos/${app.logo}` : '../logos/65_Yono_Games.webp';
   const slug = generateSlug(app.name);
@@ -316,7 +316,7 @@ function generateHTML(app) {
         <span class="logo-text">YONO HUB</span>
       </a>
       <div class="header-actions">
-        <a href="https://youonogamesgift.com/?code=KMZL4GEW&t=1785424495" class="btn btn-primary" style="height: 36px; padding: 0 1rem; border-radius: 18px;">Download All</a>
+        <a href="https://youonogamesgift.com/?code=KMZL4GEW&t=1785424495" class="btn btn-primary outbound-link" style="height: 36px; padding: 0 1rem; border-radius: 18px;" rel="nofollow noopener noreferrer" target="_blank">Download All</a>
       </div>
     </div>
   </header>
@@ -464,8 +464,8 @@ function generateHTML(app) {
       </ul>
       
       <div class="action-container">
-        <a href="${app.primary_link}" target="_blank" class="btn btn-primary" style="flex: 1;">Download APK (Secure)</a>
-        ${app.backup_link ? `<a href="${app.backup_link}" target="_blank" class="btn btn-secondary" style="flex: 1;">Mirror Download Link</a>` : ''}
+        <a href="${app.primary_link}" target="_blank" class="btn btn-primary outbound-link" style="flex: 1;" rel="nofollow noopener noreferrer">Download APK (Secure)</a>
+        ${app.backup_link ? `<a href="${app.backup_link}" target="_blank" class="btn btn-secondary outbound-link" style="flex: 1;" rel="nofollow noopener noreferrer">Mirror Download Link</a>` : ''}
       </div>
     </div>
   </main>
@@ -480,20 +480,112 @@ function generateHTML(app) {
     </div>
     <div class="site-footer">
       <p class="footer-text">&copy; 2026 Yono Games Hub. All rights reserved.</p>
+      <div class="footer-links" style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.75rem;">
+        <a href="../privacy-policy.html" class="footer-link" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem;">Privacy Policy</a>
+        <a href="../terms-of-service.html" class="footer-link" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem;">Terms of Service</a>
+        <a href="../responsible-gaming.html" class="footer-link" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem;">Responsible Gaming</a>
+      </div>
     </div>
   </footer>
 
+  <!-- Age Verification Gate -->
+  <div class="compliance-overlay" id="ageGateOverlay">
+    <div class="compliance-card">
+      <svg class="compliance-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 56px; height: 56px; fill: var(--color-gold); margin-bottom: 1.25rem;">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+      </svg>
+      <h3 class="compliance-title">Age Verification Gate</h3>
+      <p class="compliance-text">
+        You must be at least <strong>18 years of age</strong> or older to view the contents of this website. 
+        <br><br>
+        Real Money Gaming involves financial risk. Access is prohibited from the following states in India: Andhra Pradesh, Telangana, Assam, Odisha, Nagaland, Sikkim, and Tamil Nadu.
+      </p>
+      <div class="compliance-actions">
+        <button class="btn btn-primary" onclick="confirmAge(true)">I am 18 or Older</button>
+        <button class="btn btn-secondary" onclick="confirmAge(false)">Under 18</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Outbound Interstitial Redirect Dialog -->
+  <div class="compliance-overlay" id="interstitialOverlay">
+    <div class="compliance-card">
+      <div class="interstitial-loading">
+        <div class="spinner"></div>
+        <h3 class="compliance-title">Redirecting to Secure Download</h3>
+      </div>
+      <p class="compliance-text">
+        You are leaving Yono Hub to access the download APK on a third-party website. 
+        <br><br>
+        Please ensure you download safely and verify system settings before installation.
+      </p>
+      <div class="compliance-actions" style="margin-top: 1rem;">
+        <a href="#" id="interstitialConfirmBtn" target="_blank" rel="nofollow noopener noreferrer" class="btn btn-primary" onclick="closeInterstitial()">Proceed Immediately</a>
+        <button class="btn btn-secondary" onclick="closeInterstitial()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Tabs Switcher & Accordion script -->
   <script>
+    // Age Gate state memory
+    document.addEventListener('DOMContentLoaded', () => {
+      const isVerified = localStorage.getItem('age_verified_18');
+      if (isVerified !== 'true') {
+        const ageGate = document.getElementById('ageGateOverlay');
+        if (ageGate) ageGate.classList.add('open');
+      }
+
+      // Interstitial Redirect hooks
+      const outboundLinks = document.querySelectorAll('.outbound-link');
+      outboundLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetUrl = link.getAttribute('href');
+          triggerInterstitial(targetUrl);
+        });
+      });
+    });
+
+    function confirmAge(verified) {
+      if (verified) {
+        localStorage.setItem('age_verified_18', 'true');
+        const ageGate = document.getElementById('ageGateOverlay');
+        if (ageGate) ageGate.classList.remove('open');
+      } else {
+        window.location.href = 'https://www.google.com';
+      }
+    }
+
+    let redirectTimer = null;
+    function triggerInterstitial(url) {
+      const overlay = document.getElementById('interstitialOverlay');
+      const confirmBtn = document.getElementById('interstitialConfirmBtn');
+      if (!overlay || !confirmBtn) return;
+      
+      confirmBtn.setAttribute('href', url);
+      overlay.classList.add('open');
+      
+      // Auto redirect after 3.5 seconds
+      redirectTimer = setTimeout(() => {
+        window.open(url, '_blank', 'noopener,noreferrer');
+        closeInterstitial();
+      }, 3500);
+    }
+
+    function closeInterstitial() {
+      const overlay = document.getElementById('interstitialOverlay');
+      if (overlay) overlay.classList.remove('open');
+      if (redirectTimer) clearTimeout(redirectTimer);
+    }
+
     function switchTab(event, tabId) {
-      // Deactivate all triggers and panels
       const triggers = document.querySelectorAll('.tab-trigger');
       const panels = document.querySelectorAll('.tab-panel');
       
       triggers.forEach(t => t.classList.remove('active'));
       panels.forEach(p => p.classList.remove('active'));
       
-      // Activate clicked trigger and target panel
       event.currentTarget.classList.add('active');
       document.getElementById(tabId).classList.add('active');
     }
@@ -503,14 +595,12 @@ function generateHTML(app) {
       const answer = btn.nextElementSibling;
       const isOpen = item.classList.contains('active');
       
-      // Close all FAQs in this page
       const allItems = document.querySelectorAll('.faq-item');
       allItems.forEach(i => {
         i.classList.remove('active');
         i.querySelector('.faq-answer').style.maxHeight = null;
       });
       
-      // Toggle current FAQ
       if (!isOpen) {
         item.classList.add('active');
         answer.style.maxHeight = answer.scrollHeight + "px";
@@ -521,11 +611,54 @@ function generateHTML(app) {
 </html>`;
 }
 
-// Generate files
+// Generate game files
 apps.forEach(app => {
   const slug = generateSlug(app.name);
   const htmlContent = generateHTML(app);
   fs.writeFileSync(path.join(gamesDir, `${slug}.html`), htmlContent, 'utf-8');
 });
-
 console.log(`Successfully generated ${apps.length} game landing pages in the 'games/' folder.`);
+
+// Pre-render apps in index.html (SSG)
+const indexTemplatePath = path.join(__dirname, 'index.template.html');
+if (fs.existsSync(indexTemplatePath)) {
+  const indexTemplate = fs.readFileSync(indexTemplatePath, 'utf-8');
+  
+  const cardHTMLs = apps.map(app => {
+    const logoSrc = app.logo ? `logos/${app.logo}` : 'logos/65_Yono_Games.webp';
+    const slug = generateSlug(app.name);
+    const pageUrl = `games/${slug}.html`;
+    
+    return `      <div class="app-card animate-fade-in" data-category="${app.category}" data-name="${app.name.toLowerCase()}" onclick="handleCardClick(event, 'games/${slug}.html')">
+        <div class="app-card-header">
+          <div class="app-logo-wrapper">
+            <img src="${logoSrc}" alt="${app.name} logo" class="app-logo" loading="lazy">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">${app.name}</h3>
+            <span class="app-category-badge">${app.category}</span>
+          </div>
+        </div>
+        
+        <div class="app-badges">
+          <div class="badge-item">
+            <span class="badge-label">Sign Up</span>
+            <span class="badge-val">${app.signup_bonus || 'Rs. 51'}</span>
+          </div>
+          <div class="badge-item">
+            <span class="badge-label">Deposit</span>
+            <span class="badge-val">${app.deposit_bonus || '100% Match'}</span>
+          </div>
+        </div>
+        
+        <div class="app-actions">
+          <a href="${app.primary_link}" target="_blank" class="btn btn-primary outbound-link" rel="nofollow noopener noreferrer">Download Now</a>
+          <a href="games/${slug}.html" class="btn btn-secondary">Details & Rewards</a>
+        </div>
+      </div>`;
+  }).join('\n');
+  
+  const finalIndex = indexTemplate.replace('<!-- APP_CARDS_PLACEHOLDER -->', cardHTMLs);
+  fs.writeFileSync(path.join(__dirname, 'index.html'), finalIndex, 'utf-8');
+  console.log("Successfully pre-rendered game cards inside index.html.");
+}

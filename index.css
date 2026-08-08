@@ -1048,11 +1048,113 @@ header {
     gap: 0.5rem;
   }
   
-  .reward-card {
-    padding: 0.5rem;
-  }
-  
   .reward-card-value {
     font-size: 0.85rem;
   }
 }
+
+/* Compliance Modal Overlays (Age Gate & Interstitial) */
+.compliance-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+}
+
+.compliance-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.compliance-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 480px;
+  padding: 2.25rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  transform: translateY(20px);
+  transition: transform var(--transition-normal);
+}
+
+.compliance-overlay.open .compliance-card {
+  transform: translateY(0);
+}
+
+.compliance-icon {
+  width: 56px;
+  height: 56px;
+  fill: var(--color-gold);
+  margin-bottom: 1.25rem;
+}
+
+.compliance-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.compliance-text {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.compliance-text strong {
+  color: var(--text-primary);
+}
+
+.compliance-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 480px) {
+  .compliance-actions {
+    flex-direction: row;
+  }
+  .compliance-actions .btn {
+    flex: 1;
+  }
+}
+
+/* Interstitial Loading State */
+.interstitial-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--bg-tertiary);
+  border-top-color: var(--color-gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 0.75rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
