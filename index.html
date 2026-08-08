@@ -24,6 +24,9 @@
   <meta property="twitter:image" content="https://yono-hub.vercel.app/logos/65_Yono_Games.webp">
 
   <link rel="icon" type="image/x-icon" href="logos/65_Yono_Games.webp">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="canonical" href="https://yono-hub.vercel.app/">
+  <link rel="manifest" href="site.webmanifest">
 
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="index.css">
@@ -62,6 +65,27 @@
     </div>
   </section>
 
+  <!-- Search & Filter Controls -->
+  <section class="controls-section">
+    <div class="container controls-container">
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <input type="text" id="appSearch" class="search-input" placeholder="Search Rummy, Slots, Spin games...">
+        <button id="searchClearBtn" class="search-clear-btn">&times;</button>
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-tab active" id="tabAll" data-category="All">All</button>
+        <button class="filter-tab" id="tabRummy" data-category="Rummy">Rummy</button>
+        <button class="filter-tab" id="tabSlots" data-category="Slots">Slots</button>
+        <button class="filter-tab" id="tabSpin" data-category="Spin">Spin</button>
+        <button class="filter-tab" id="tabBet" data-category="Bet">Bet</button>
+        <button class="filter-tab" id="tabJackpot" data-category="Jackpot">Jackpot</button>
+      </div>
+    </div>
+  </section>
+
   <!-- Main Game Listings -->
   <main class="container" id="mainContent">
     <h2 class="grid-title" id="gridSectionTitle">
@@ -74,7 +98,7 @@
             <div class="app-card animate-fade-in" data-category="Rummy" data-name="saga slots" onclick="handleCardClick(event, 'games/saga-slots.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/67_Saga_Slots.webp" alt="Saga Slots logo" class="app-logo" loading="lazy">
+            <img src="logos/67_Saga_Slots.webp" alt="Saga Slots logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Saga Slots</h3>
@@ -101,7 +125,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="gogorummy" onclick="handleCardClick(event, 'games/gogorummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/56_Gogo_Rummy.png" alt="Gogorummy logo" class="app-logo" loading="lazy">
+            <img src="logos/56_Gogo_Rummy.png" alt="Gogorummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Gogorummy</h3>
@@ -128,7 +152,7 @@
       <div class="app-card animate-fade-in" data-category="Spin" data-name="spin101" onclick="handleCardClick(event, 'games/spin101.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/59_Spin_101.webp" alt="Spin101 logo" class="app-logo" loading="lazy">
+            <img src="logos/59_Spin_101.webp" alt="Spin101 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Spin101</h3>
@@ -155,7 +179,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="abc rummy" onclick="handleCardClick(event, 'games/abc-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/66_ABC_Rummy.webp" alt="ABC Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/66_ABC_Rummy.webp" alt="ABC Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">ABC Rummy</h3>
@@ -182,7 +206,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="yono games" onclick="handleCardClick(event, 'games/yono-games.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/65_Yono_Games.webp" alt="Yono Games logo" class="app-logo" loading="lazy">
+            <img src="logos/65_Yono_Games.webp" alt="Yono Games logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Yono Games</h3>
@@ -209,7 +233,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="spin777" onclick="handleCardClick(event, 'games/spin777.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/47_Spin_777.webp" alt="SPIN777 logo" class="app-logo" loading="lazy">
+            <img src="logos/47_Spin_777.webp" alt="SPIN777 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">SPIN777</h3>
@@ -236,7 +260,7 @@
       <div class="app-card animate-fade-in" data-category="Slots" data-name="789jackpots" onclick="handleCardClick(event, 'games/789jackpots.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/51_789_Jackpots.png" alt="789Jackpots logo" class="app-logo" loading="lazy">
+            <img src="logos/51_789_Jackpots.png" alt="789Jackpots logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">789Jackpots</h3>
@@ -263,7 +287,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="jaiho 777" onclick="handleCardClick(event, 'games/jaiho-777.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/60_Jaiho_777.png" alt="Jaiho 777 logo" class="app-logo" loading="lazy">
+            <img src="logos/60_Jaiho_777.png" alt="Jaiho 777 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Jaiho 777</h3>
@@ -290,7 +314,7 @@
       <div class="app-card animate-fade-in" data-category="Spin" data-name="spin crush" onclick="handleCardClick(event, 'games/spin-crush.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/45_Spin_Crush.webp" alt="Spin Crush logo" class="app-logo" loading="lazy">
+            <img src="logos/45_Spin_Crush.webp" alt="Spin Crush logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Spin Crush</h3>
@@ -317,7 +341,7 @@
       <div class="app-card animate-fade-in" data-category="Spin" data-name="spin crush" onclick="handleCardClick(event, 'games/spin-crush.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/45_Spin_Crush.webp" alt="Spin Crush logo" class="app-logo" loading="lazy">
+            <img src="logos/45_Spin_Crush.webp" alt="Spin Crush logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Spin Crush</h3>
@@ -344,7 +368,7 @@
       <div class="app-card animate-fade-in" data-category="Slots" data-name="indslots" onclick="handleCardClick(event, 'games/indslots.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/46_IND_Slots.png" alt="Indslots logo" class="app-logo" loading="lazy">
+            <img src="logos/46_IND_Slots.png" alt="Indslots logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Indslots</h3>
@@ -371,7 +395,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="yono rummy" onclick="handleCardClick(event, 'games/yono-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/64_Yono_Rummy.png" alt="Yono Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/64_Yono_Rummy.png" alt="Yono Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Yono Rummy</h3>
@@ -398,7 +422,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="mbmbet" onclick="handleCardClick(event, 'games/mbmbet.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/63_MBM_Bet.png" alt="MBMbet logo" class="app-logo" loading="lazy">
+            <img src="logos/63_MBM_Bet.png" alt="MBMbet logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">MBMbet</h3>
@@ -425,7 +449,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="bet 213" onclick="handleCardClick(event, 'games/bet-213.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/62_Bet_213_Slots.webp" alt="BET 213 logo" class="app-logo" loading="lazy">
+            <img src="logos/62_Bet_213_Slots.webp" alt="BET 213 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">BET 213</h3>
@@ -452,7 +476,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="yono777" onclick="handleCardClick(event, 'games/yono777.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/61_Yono_777.png" alt="YONO777 logo" class="app-logo" loading="lazy">
+            <img src="logos/61_Yono_777.png" alt="YONO777 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">YONO777</h3>
@@ -479,7 +503,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="101 z" onclick="handleCardClick(event, 'games/101-z.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/57_101Z_App.png" alt="101 Z logo" class="app-logo" loading="lazy">
+            <img src="logos/57_101Z_App.png" alt="101 Z logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">101 Z</h3>
@@ -506,7 +530,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="spin gold" onclick="handleCardClick(event, 'games/spin-gold.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/49_Spin_Gold.webp" alt="Spin Gold logo" class="app-logo" loading="lazy">
+            <img src="logos/49_Spin_Gold.webp" alt="Spin Gold logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Spin Gold</h3>
@@ -533,7 +557,7 @@
       <div class="app-card animate-fade-in" data-category="Slots" data-name="slots winner" onclick="handleCardClick(event, 'games/slots-winner.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/43_Slots_Winner.webp" alt="Slots Winner logo" class="app-logo" loading="lazy">
+            <img src="logos/43_Slots_Winner.webp" alt="Slots Winner logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Slots Winner</h3>
@@ -560,7 +584,7 @@
       <div class="app-card animate-fade-in" data-category="Slots" data-name="567slots" onclick="handleCardClick(event, 'games/567slots.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/42_567_Slots.webp" alt="567Slots logo" class="app-logo" loading="lazy">
+            <img src="logos/42_567_Slots.webp" alt="567Slots logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">567Slots</h3>
@@ -587,7 +611,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="indrummy" onclick="handleCardClick(event, 'games/indrummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/40_IND_Rummy.webp" alt="IndRummy logo" class="app-logo" loading="lazy">
+            <img src="logos/40_IND_Rummy.webp" alt="IndRummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">IndRummy</h3>
@@ -614,7 +638,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="jaiho arcade" onclick="handleCardClick(event, 'games/jaiho-arcade.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/39_Jaiho_Arcade.png" alt="Jaiho Arcade logo" class="app-logo" loading="lazy">
+            <img src="logos/39_Jaiho_Arcade.png" alt="Jaiho Arcade logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Jaiho Arcade</h3>
@@ -641,7 +665,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="yn777" onclick="handleCardClick(event, 'games/yn777.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/36_YN_777.webp" alt="YN777 logo" class="app-logo" loading="lazy">
+            <img src="logos/36_YN_777.webp" alt="YN777 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">YN777</h3>
@@ -668,7 +692,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="yono slots" onclick="handleCardClick(event, 'games/yono-slots.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/34_Yono_Slots.webp" alt="Yono Slots logo" class="app-logo" loading="lazy">
+            <img src="logos/34_Yono_Slots.webp" alt="Yono Slots logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Yono Slots</h3>
@@ -695,7 +719,7 @@
       <div class="app-card animate-fade-in" data-category="Spin" data-name="spinwinner" onclick="handleCardClick(event, 'games/spinwinner.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/11_Spin_Winner.png" alt="SpinWinner logo" class="app-logo" loading="lazy">
+            <img src="logos/11_Spin_Winner.png" alt="SpinWinner logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">SpinWinner</h3>
@@ -722,7 +746,7 @@
       <div class="app-card animate-fade-in" data-category="Spin" data-name="jaihospin" onclick="handleCardClick(event, 'games/jaihospin.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/35_Jaiho_Spin.webp" alt="JaihoSpin logo" class="app-logo" loading="lazy">
+            <img src="logos/35_Jaiho_Spin.webp" alt="JaihoSpin logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">JaihoSpin</h3>
@@ -749,7 +773,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="bingo101" onclick="handleCardClick(event, 'games/bingo101.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/38_Bingo_101.webp" alt="Bingo101 logo" class="app-logo" loading="lazy">
+            <img src="logos/38_Bingo_101.webp" alt="Bingo101 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Bingo101</h3>
@@ -776,7 +800,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="rummy91" onclick="handleCardClick(event, 'games/rummy91.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/07_Rummy_91.jpeg" alt="RUMMY91 logo" class="app-logo" loading="lazy">
+            <img src="logos/07_Rummy_91.jpeg" alt="RUMMY91 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">RUMMY91</h3>
@@ -803,7 +827,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="top rummy" onclick="handleCardClick(event, 'games/top-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/30_Top_Rummy.webp" alt="Top Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/30_Top_Rummy.webp" alt="Top Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Top Rummy</h3>
@@ -830,7 +854,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="hirummy" onclick="handleCardClick(event, 'games/hirummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/29_Hi_Rummy.webp" alt="HiRummy logo" class="app-logo" loading="lazy">
+            <img src="logos/29_Hi_Rummy.webp" alt="HiRummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">HiRummy</h3>
@@ -857,7 +881,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="yono arcade" onclick="handleCardClick(event, 'games/yono-arcade.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/33_Yono_Arcade.webp" alt="Yono Arcade logo" class="app-logo" loading="lazy">
+            <img src="logos/33_Yono_Arcade.webp" alt="Yono Arcade logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Yono Arcade</h3>
@@ -884,7 +908,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="share slots" onclick="handleCardClick(event, 'games/share-slots.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/28_Share_Slots.webp" alt="Share Slots logo" class="app-logo" loading="lazy">
+            <img src="logos/28_Share_Slots.webp" alt="Share Slots logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Share Slots</h3>
@@ -911,7 +935,7 @@
       <div class="app-card animate-fade-in" data-category="Slots" data-name="jaiho slots" onclick="handleCardClick(event, 'games/jaiho-slots.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/15_Jaiho_Slots.webp" alt="Jaiho Slots logo" class="app-logo" loading="lazy">
+            <img src="logos/15_Jaiho_Slots.webp" alt="Jaiho Slots logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Jaiho Slots</h3>
@@ -938,7 +962,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="jaihorummy" onclick="handleCardClick(event, 'games/jaihorummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/31_Jaiho_Rummy.webp" alt="JaiHoRummy logo" class="app-logo" loading="lazy">
+            <img src="logos/31_Jaiho_Rummy.webp" alt="JaiHoRummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">JaiHoRummy</h3>
@@ -965,7 +989,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="love rummy" onclick="handleCardClick(event, 'games/love-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/27_Love_Rummy.webp" alt="Love Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/27_Love_Rummy.webp" alt="Love Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Love Rummy</h3>
@@ -992,7 +1016,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="maha games" onclick="handleCardClick(event, 'games/maha-games.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/26_Maha_Games.png" alt="Maha Games logo" class="app-logo" loading="lazy">
+            <img src="logos/26_Maha_Games.png" alt="Maha Games logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Maha Games</h3>
@@ -1019,7 +1043,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="gamerummy" onclick="handleCardClick(event, 'games/gamerummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/65_Yono_Games.webp" alt="GameRummy logo" class="app-logo" loading="lazy">
+            <img src="logos/65_Yono_Games.webp" alt="GameRummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">GameRummy</h3>
@@ -1046,7 +1070,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="club inr" onclick="handleCardClick(event, 'games/club-inr.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/02_Club_Inr.webp" alt="Club INR logo" class="app-logo" loading="lazy">
+            <img src="logos/02_Club_Inr.webp" alt="Club INR logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Club INR</h3>
@@ -1073,7 +1097,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="boss rummy" onclick="handleCardClick(event, 'games/boss-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/09_Boss_Rummy.webp" alt="Boss Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/09_Boss_Rummy.webp" alt="Boss Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Boss Rummy</h3>
@@ -1100,7 +1124,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="rummy888" onclick="handleCardClick(event, 'games/rummy888.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/14_Rummy_888.webp" alt="Rummy888 logo" class="app-logo" loading="lazy">
+            <img src="logos/14_Rummy_888.webp" alt="Rummy888 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Rummy888</h3>
@@ -1127,7 +1151,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="joy rummy" onclick="handleCardClick(event, 'games/joy-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/06_Joy_Rummy.webp" alt="Joy Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/06_Joy_Rummy.webp" alt="Joy Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Joy Rummy</h3>
@@ -1154,7 +1178,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="dhan game" onclick="handleCardClick(event, 'games/dhan-game.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/03_Dhan_Game.jpg" alt="Dhan Game logo" class="app-logo" loading="lazy">
+            <img src="logos/03_Dhan_Game.webp" alt="Dhan Game logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Dhan Game</h3>
@@ -1181,7 +1205,7 @@
       <div class="app-card animate-fade-in" data-category="Spin" data-name="dhan game" onclick="handleCardClick(event, 'games/dhan-game.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/03_Dhan_Game.jpg" alt="Dhan Game logo" class="app-logo" loading="lazy">
+            <img src="logos/03_Dhan_Game.webp" alt="Dhan Game logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Dhan Game</h3>
@@ -1208,7 +1232,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="inr rummy" onclick="handleCardClick(event, 'games/inr-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/08_Inr_Rummy.webp" alt="INR Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/08_Inr_Rummy.webp" alt="INR Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">INR Rummy</h3>
@@ -1235,7 +1259,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="win rummy" onclick="handleCardClick(event, 'games/win-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/01_Win_Rummy.webp" alt="Win Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/01_Win_Rummy.webp" alt="Win Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Win Rummy</h3>
@@ -1262,7 +1286,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="max rummy" onclick="handleCardClick(event, 'games/max-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/04_Max_Rummy.webp" alt="Max Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/04_Max_Rummy.webp" alt="Max Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Max Rummy</h3>
@@ -1289,7 +1313,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="unknown app" onclick="handleCardClick(event, 'games/unknown-app.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/57_101Z_App.png" alt="Unknown App logo" class="app-logo" loading="lazy">
+            <img src="logos/57_101Z_App.png" alt="Unknown App logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Unknown App</h3>
@@ -1316,7 +1340,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="rummy ludo" onclick="handleCardClick(event, 'games/rummy-ludo.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/17_Rummy_Ludo.webp" alt="Rummy Ludo logo" class="app-logo" loading="lazy">
+            <img src="logos/17_Rummy_Ludo.webp" alt="Rummy Ludo logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Rummy Ludo</h3>
@@ -1343,7 +1367,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="jaiho 91" onclick="handleCardClick(event, 'games/jaiho-91.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/05_Jaiho_91.png" alt="Jaiho 91 logo" class="app-logo" loading="lazy">
+            <img src="logos/05_Jaiho_91.png" alt="Jaiho 91 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Jaiho 91</h3>
@@ -1370,7 +1394,7 @@
       <div class="app-card animate-fade-in" data-category="Spin" data-name="goa spin" onclick="handleCardClick(event, 'games/goa-spin.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/10_Goa_Spin.webp" alt="Goa Spin logo" class="app-logo" loading="lazy">
+            <img src="logos/10_Goa_Spin.webp" alt="Goa Spin logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Goa Spin</h3>
@@ -1397,7 +1421,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="ever 777" onclick="handleCardClick(event, 'games/ever-777.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/12_Ever_777.webp" alt="Ever 777 logo" class="app-logo" loading="lazy">
+            <img src="logos/12_Ever_777.webp" alt="Ever 777 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Ever 777</h3>
@@ -1424,7 +1448,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="winzo rummy" onclick="handleCardClick(event, 'games/winzo-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/13_Winzo_Rummy.webp" alt="Winzo Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/13_Winzo_Rummy.webp" alt="Winzo Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Winzo Rummy</h3>
@@ -1451,7 +1475,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="rummy 77" onclick="handleCardClick(event, 'games/rummy-77.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/16_Rummy_77.webp" alt="Rummy 77 logo" class="app-logo" loading="lazy">
+            <img src="logos/16_Rummy_77.webp" alt="Rummy 77 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Rummy 77</h3>
@@ -1478,7 +1502,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="777 game" onclick="handleCardClick(event, 'games/777-game.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/18_777_Game.webp" alt="777 Game logo" class="app-logo" loading="lazy">
+            <img src="logos/18_777_Game.webp" alt="777 Game logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">777 Game</h3>
@@ -1505,7 +1529,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="hindi 777" onclick="handleCardClick(event, 'games/hindi-777.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/19_Hindi_777.webp" alt="Hindi 777 logo" class="app-logo" loading="lazy">
+            <img src="logos/19_Hindi_777.webp" alt="Hindi 777 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Hindi 777</h3>
@@ -1532,7 +1556,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="ok rummy" onclick="handleCardClick(event, 'games/ok-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/20_Ok_Rummy.webp" alt="Ok Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/20_Ok_Rummy.webp" alt="Ok Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Ok Rummy</h3>
@@ -1559,7 +1583,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="ind club" onclick="handleCardClick(event, 'games/ind-club.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/21_IND_Club.webp" alt="IND Club logo" class="app-logo" loading="lazy">
+            <img src="logos/21_IND_Club.webp" alt="IND Club logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">IND Club</h3>
@@ -1586,7 +1610,7 @@
       <div class="app-card animate-fade-in" data-category="Slots" data-name="good slots" onclick="handleCardClick(event, 'games/good-slots.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/23_Good_Slots.webp" alt="Good Slots logo" class="app-logo" loading="lazy">
+            <img src="logos/23_Good_Slots.webp" alt="Good Slots logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Good Slots</h3>
@@ -1613,7 +1637,7 @@
       <div class="app-card animate-fade-in" data-category="Spin" data-name="yes spin" onclick="handleCardClick(event, 'games/yes-spin.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/24_Yes_Spin.webp" alt="Yes Spin logo" class="app-logo" loading="lazy">
+            <img src="logos/24_Yes_Spin.webp" alt="Yes Spin logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Yes Spin</h3>
@@ -1640,7 +1664,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="rumble rummy" onclick="handleCardClick(event, 'games/rumble-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/25_Rumble_Rummy.webp" alt="Rumble Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/25_Rumble_Rummy.webp" alt="Rumble Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Rumble Rummy</h3>
@@ -1667,7 +1691,7 @@
       <div class="app-card animate-fade-in" data-category="Jackpot" data-name="jaiho win" onclick="handleCardClick(event, 'games/jaiho-win.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/32_Jaiho_Win.webp" alt="Jaiho Win logo" class="app-logo" loading="lazy">
+            <img src="logos/32_Jaiho_Win.webp" alt="Jaiho Win logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Jaiho Win</h3>
@@ -1694,7 +1718,7 @@
       <div class="app-card animate-fade-in" data-category="Slots" data-name="slots spin" onclick="handleCardClick(event, 'games/slots-spin.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/37_Slots_Spin.png" alt="Slots Spin logo" class="app-logo" loading="lazy">
+            <img src="logos/37_Slots_Spin.png" alt="Slots Spin logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Slots Spin</h3>
@@ -1721,7 +1745,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="yono vip" onclick="handleCardClick(event, 'games/yono-vip.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/41_Yono_Vip.webp" alt="Yono Vip logo" class="app-logo" loading="lazy">
+            <img src="logos/41_Yono_Vip.webp" alt="Yono Vip logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Yono Vip</h3>
@@ -1748,7 +1772,7 @@
       <div class="app-card animate-fade-in" data-category="Bet" data-name="mkm bet" onclick="handleCardClick(event, 'games/mkm-bet.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/44_MKM_Bet.png" alt="MKM Bet logo" class="app-logo" loading="lazy">
+            <img src="logos/44_MKM_Bet.png" alt="MKM Bet logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">MKM Bet</h3>
@@ -1775,7 +1799,7 @@
       <div class="app-card animate-fade-in" data-category="Spin" data-name="spin lucky" onclick="handleCardClick(event, 'games/spin-lucky.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/48_Spin_Lucky.png" alt="Spin Lucky logo" class="app-logo" loading="lazy">
+            <img src="logos/48_Spin_Lucky.png" alt="Spin Lucky logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Spin Lucky</h3>
@@ -1802,7 +1826,7 @@
       <div class="app-card animate-fade-in" data-category="Bet" data-name="mdm bet" onclick="handleCardClick(event, 'games/mdm-bet.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/50_MDM_Bet.webp" alt="MDM Bet logo" class="app-logo" loading="lazy">
+            <img src="logos/50_MDM_Bet.webp" alt="MDM Bet logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">MDM Bet</h3>
@@ -1829,7 +1853,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="en 365" onclick="handleCardClick(event, 'games/en-365.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/52_EN_365.webp" alt="EN 365 logo" class="app-logo" loading="lazy">
+            <img src="logos/52_EN_365.webp" alt="EN 365 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">EN 365</h3>
@@ -1856,7 +1880,7 @@
       <div class="app-card animate-fade-in" data-category="Bingo" data-name="ind bingo" onclick="handleCardClick(event, 'games/ind-bingo.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/53_IND_Bingo.webp" alt="IND Bingo logo" class="app-logo" loading="lazy">
+            <img src="logos/53_IND_Bingo.webp" alt="IND Bingo logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">IND Bingo</h3>
@@ -1883,7 +1907,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="my 777" onclick="handleCardClick(event, 'games/my-777.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/54_My_777.png" alt="My 777 logo" class="app-logo" loading="lazy">
+            <img src="logos/54_My_777.png" alt="My 777 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">My 777</h3>
@@ -1910,7 +1934,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="neta vip" onclick="handleCardClick(event, 'games/neta-vip.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/55_Neta_Vip.webp" alt="Neta Vip logo" class="app-logo" loading="lazy">
+            <img src="logos/55_Neta_Vip.webp" alt="Neta Vip logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Neta Vip</h3>
@@ -1937,7 +1961,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="rummy 365" onclick="handleCardClick(event, 'games/rummy-365.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/58_Rummy_365.png" alt="Rummy 365 logo" class="app-logo" loading="lazy">
+            <img src="logos/58_Rummy_365.png" alt="Rummy 365 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Rummy 365</h3>
@@ -1964,7 +1988,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="yn rummy" onclick="handleCardClick(event, 'games/yn-rummy.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/68_YN_Rummy.webp" alt="YN Rummy logo" class="app-logo" loading="lazy">
+            <img src="logos/68_YN_Rummy.webp" alt="YN Rummy logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">YN Rummy</h3>
@@ -1991,7 +2015,7 @@
       <div class="app-card animate-fade-in" data-category="Slots" data-name="yoyo slots" onclick="handleCardClick(event, 'games/yoyo-slots.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/69_Yoyo_Slots.webp" alt="Yoyo Slots logo" class="app-logo" loading="lazy">
+            <img src="logos/69_Yoyo_Slots.webp" alt="Yoyo Slots logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">Yoyo Slots</h3>
@@ -2018,7 +2042,7 @@
       <div class="app-card animate-fade-in" data-category="Rummy" data-name="svip 777" onclick="handleCardClick(event, 'games/svip-777.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/70_SVIP_777.webp" alt="SVIP 777 logo" class="app-logo" loading="lazy">
+            <img src="logos/70_SVIP_777.webp" alt="SVIP 777 logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">SVIP 777</h3>
@@ -2045,7 +2069,7 @@
       <div class="app-card animate-fade-in" data-category="Bet" data-name="mwm bet" onclick="handleCardClick(event, 'games/mwm-bet.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/71_MWM_Bet.webp" alt="MWM Bet logo" class="app-logo" loading="lazy">
+            <img src="logos/71_MWM_Bet.webp" alt="MWM Bet logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">MWM Bet</h3>
@@ -2072,7 +2096,7 @@
       <div class="app-card animate-fade-in" data-category="Bet" data-name="mqm bet" onclick="handleCardClick(event, 'games/mqm-bet.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="logos/72_MQM_Bet.webp" alt="MQM Bet logo" class="app-logo" loading="lazy">
+            <img src="logos/72_MQM_Bet.webp" alt="MQM Bet logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">MQM Bet</h3>
@@ -2154,6 +2178,34 @@
       </div>
     </div>
   </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="#" class="bottom-nav-item active" id="bottomNavHome">
+      <svg class="bottom-nav-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+      <span class="bottom-nav-label">Home</span>
+    </a>
+    <a href="#rummy" class="bottom-nav-item" id="bottomNavRummy">
+      <svg class="bottom-nav-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
+      </svg>
+      <span class="bottom-nav-label">Rummy</span>
+    </a>
+    <a href="#slots" class="bottom-nav-item" id="bottomNavSlots">
+      <svg class="bottom-nav-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z"/>
+      </svg>
+      <span class="bottom-nav-label">Slots</span>
+    </a>
+    <a href="https://youonogamesgift.com/?code=KMZL4GEW&t=1785424495" class="bottom-nav-item outbound-link" target="_blank" rel="nofollow noopener noreferrer">
+      <svg class="bottom-nav-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+      </svg>
+      <span class="bottom-nav-label">Download All</span>
+    </a>
+  </nav>
 
   <!-- Javascript Logic Modules -->
   <script src="data.js"></script>

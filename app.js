@@ -1,5 +1,6 @@
 // Global State
 let currentFilter = 'All';
+let searchQuery = '';
 
 // DOM Elements
 let appsGrid;
@@ -7,6 +8,8 @@ let appCountDisplay;
 let ageGateOverlay;
 let interstitialOverlay;
 let interstitialConfirmBtn;
+let appSearch;
+let searchClearBtn;
 
 // Initialize Website
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ageGateOverlay = document.getElementById('ageGateOverlay');
   interstitialOverlay = document.getElementById('interstitialOverlay');
   interstitialConfirmBtn = document.getElementById('interstitialConfirmBtn');
+  appSearch = document.getElementById('appSearch');
+  searchClearBtn = document.getElementById('searchClearBtn');
 
   // Age Gate Memory Check
   const isVerified = localStorage.getItem('age_verified_18');
@@ -27,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Navigation Click listeners for smooth scrolling
   setupNavigationSmoothScroll();
+
+  // Search & Filter Tab listeners
+  setupSearchAndFilters();
 
   // Listen for hash changes to navigate categories
   handleHashChange();
@@ -63,11 +71,11 @@ function triggerInterstitial(url) {
   interstitialConfirmBtn.setAttribute('href', url);
   interstitialOverlay.classList.add('open');
   
-  // Auto redirect after 3.5 seconds
+  // Auto redirect after 3 seconds
   redirectTimer = setTimeout(() => {
     window.open(url, '_blank', 'noopener,noreferrer');
     closeInterstitial();
-  }, 3500);
+  }, 3000);
 }
 
 function closeInterstitial() {
@@ -83,6 +91,55 @@ function handleCardClick(event, url) {
   window.location.href = url;
 }
 
+// Search and Category Tabs
+function setupSearchAndFilters() {
+  if (appSearch) {
+    appSearch.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      if (searchQuery.length > 0) {
+        if (searchClearBtn) searchClearBtn.style.display = 'flex';
+      } else {
+        if (searchClearBtn) searchClearBtn.style.display = 'none';
+      }
+      filterListings();
+    });
+  }
+
+  if (searchClearBtn) {
+    searchClearBtn.addEventListener('click', () => {
+      if (appSearch) {
+        appSearch.value = '';
+      }
+      searchQuery = '';
+      searchClearBtn.style.display = 'none';
+      filterListings();
+    });
+  }
+
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const category = tab.getAttribute('data-category');
+      currentFilter = category;
+      
+      // Update tabs active state
+      filterTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      // Update Hash if matching home page nav categories
+      if (category === 'Rummy') {
+        window.location.hash = '#rummy';
+      } else if (category === 'Slots') {
+        window.location.hash = '#slots';
+      } else if (category === 'All') {
+        window.location.hash = '';
+      }
+
+      filterListings();
+    });
+  });
+}
+
 // Parse URL hash for category navigation
 function handleHashChange() {
   const hash = window.location.hash.replace('#', '').toLowerCase();
@@ -92,11 +149,27 @@ function handleHashChange() {
     targetCategory = 'Rummy';
   } else if (hash === 'slots') {
     targetCategory = 'Slots';
+  } else if (hash === 'spin') {
+    targetCategory = 'Spin';
+  } else if (hash === 'bet') {
+    targetCategory = 'Bet';
+  } else if (hash === 'jackpot') {
+    targetCategory = 'Jackpot';
   }
   
   currentFilter = targetCategory;
 
-  // Update navbar links active classes
+  // Sync Category Filter Tabs
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  filterTabs.forEach(tab => {
+    if (tab.getAttribute('data-category') === targetCategory) {
+      tab.classList.add('active');
+    } else {
+      tab.classList.remove('active');
+    }
+  });
+
+  // Sync Header links active class
   const navLinks = document.querySelectorAll('.nav-link');
   navLinks.forEach(link => link.classList.remove('active'));
   
@@ -110,6 +183,21 @@ function handleHashChange() {
     const link = document.getElementById('navHome');
     if (link) link.classList.add('active');
   }
+
+  // Sync Mobile Bottom Nav active class
+  const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+  bottomNavItems.forEach(item => item.classList.remove('active'));
+
+  if (hash === 'rummy') {
+    const item = document.getElementById('bottomNavRummy');
+    if (item) item.classList.add('active');
+  } else if (hash === 'slots') {
+    const item = document.getElementById('bottomNavSlots');
+    if (item) item.classList.add('active');
+  } else {
+    const item = document.getElementById('bottomNavHome');
+    if (item) item.classList.add('active');
+  }
   
   filterListings();
 }
@@ -120,50 +208,63 @@ function setupNavigationSmoothScroll() {
   const rummyLink = document.getElementById('navRummy');
   const slotsLink = document.getElementById('navSlots');
   
-  if (homeLink) {
-    homeLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      window.location.hash = '';
-    });
-  }
+  const bottomHome = document.getElementById('bottomNavHome');
+  const bottomRummy = document.getElementById('bottomNavRummy');
+  const bottomSlots = document.getElementById('bottomNavSlots');
 
-  const scrollLinks = [rummyLink, slotsLink];
-  scrollLinks.forEach(link => {
-    if (link) {
-      link.addEventListener('click', (e) => {
+  const links = [
+    { el: homeLink, hash: '' },
+    { el: bottomHome, hash: '' },
+    { el: rummyLink, hash: '#rummy' },
+    { el: bottomRummy, hash: '#rummy' },
+    { el: slotsLink, hash: '#slots' },
+    { el: bottomSlots, hash: '#slots' }
+  ];
+
+  links.forEach(item => {
+    if (item.el) {
+      item.el.addEventListener('click', (e) => {
         e.preventDefault();
-        const targetId = link.getAttribute('href');
-        window.location.hash = targetId;
+        window.location.hash = item.hash;
         
-        // Scroll to grid smoothly
-        const mainContent = document.getElementById('mainContent');
-        if (mainContent) {
-          mainContent.scrollIntoView({ behavior: 'smooth' });
+        if (item.hash === '') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          // Scroll to controls or grid smoothly
+          const mainContent = document.getElementById('mainContent');
+          if (mainContent) {
+            mainContent.scrollIntoView({ behavior: 'smooth' });
+          }
         }
       });
     }
   });
 }
 
-// Filter the pre-rendered elements in DOM instead of rebuilding them (SEO friendly SSG)
+// Filter cards in the DOM based on active category & search query
 function filterListings() {
   const cards = document.querySelectorAll('.app-card');
   let visibleCount = 0;
   
   cards.forEach(card => {
     const category = card.getAttribute('data-category');
+    const name = card.getAttribute('data-name');
     
-    let isVisible = false;
+    // Category check
+    let matchesCategory = false;
     if (currentFilter === 'All') {
-      isVisible = true;
-    } else if (currentFilter === 'Rummy') {
-      isVisible = (category === 'Rummy');
-    } else if (currentFilter === 'Slots') {
-      isVisible = (category === 'Slots');
+      matchesCategory = true;
+    } else {
+      matchesCategory = (category === currentFilter);
     }
     
-    if (isVisible) {
+    // Search query check
+    let matchesSearch = true;
+    if (searchQuery.length > 0) {
+      matchesSearch = name.includes(searchQuery) || category.toLowerCase().includes(searchQuery);
+    }
+    
+    if (matchesCategory && matchesSearch) {
       card.style.display = 'flex';
       visibleCount++;
     } else {

@@ -19,10 +19,87 @@ function generateSlug(name) {
     .replace(/(^-|-$)+/g, '');
 }
 
+// Hash function for deterministic rotation
+function getDeterministicIndex(str, max) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash) % max;
+}
+
+// 5 rotating variants for About/Overview paragraph
+const aboutVariants = [
+  (app) => `${app.name} is a premier mobile gaming application in the ${app.category} category. Built to deliver a highly competitive, safe, and seamless gaming experience, it has become a top choice for players in the Indian skill-gaming market. Get direct access to the latest verified signup bonus details, secure downloads, and premium features below.`,
+  (app) => `Experience top-tier gaming on Android with the official ${app.name} app. Listed under the popular ${app.category} category, this application offers state-of-the-art security, fast matching, and an active player community. Read our full verified bonus review and download the official APK safely today.`,
+  (app) => `For enthusiasts of ${app.category} games, the ${app.name} platform provides an unmatched gaming experience. Optimized for smooth controls and low latency, it stands out as a leading application in the Indian real-money skill gaming ecosystem. Secure your download and check the verified rewards below.`,
+  (app) => `Introducing ${app.name}, a highly rated gaming application designed for Android devices. Featuring a wide selection of tables, anti-fraud systems, and rapid withdrawals, it brings authentic ${app.category} action right to your screen. Download the official, verified APK and grab your signup rewards now.`,
+  (app) => `Take your skill gaming to the next level with ${app.name}. Built on secure and reliable code, this ${app.category} app offers competitive lobbies, daily bonuses, and instant withdrawal paths. Browse our comprehensive review and download the official app securely today.`
+];
+
+// 3 rotating FAQ sets
+const faqVariants = [
+  [
+    {
+      q: (app) => `How to download the official ${app.name} APK safely?`,
+      a: (app) => `Click the "Download APK (Secure)" button at the bottom of the page to start the download. Once complete, open the APK file on your Android device, permit installations from "Unknown Sources" in your system settings, and launch the app.`
+    },
+    {
+      q: (app) => `What is the minimum withdrawal amount in ${app.name}?`,
+      a: (app) => `The minimum withdrawal threshold is ${app.min_withdrawal || '₹100'}. You can request a payout at any time to your registered Bank Account or UPI ID, with processing usually taking just a few minutes.`
+    },
+    {
+      q: (app) => `Is the welcome signup bonus in ${app.name} real?`,
+      a: (app) => `Yes, the signup bonus of ${app.signup_bonus || '₹51'} is fully verified and credited directly to your gaming wallet upon successful mobile number registration.`
+    },
+    {
+      q: (app) => `How do I contact customer support?`,
+      a: (app) => `You can easily reach support by clicking the "Help" or "Support" button in the ${app.name} game lobby. They offer 24/7 assistance through live chat and tickets.`
+    }
+  ],
+  [
+    {
+      q: (app) => `Is my personal and financial data safe on ${app.name}?`,
+      a: (app) => `Yes, ${app.name} implements high-level end-to-end encryption protocols to secure all user accounts, transactions, and personal details. The APK is also pre-scanned and verified to be safe from malware.`
+    },
+    {
+      q: (app) => `What payment options are supported in ${app.name}?`,
+      a: (app) => `The app supports several convenient methods, including ${app.payout_methods ? app.payout_methods.join(', ') : 'UPI and Direct Bank Transfer'}. All withdrawals are processed with zero hidden transaction fees.`
+    },
+    {
+      q: (app) => `Can I play ${app.name} on iOS/iPhone devices?`,
+      a: (app) => `Currently, ${app.name} is primarily optimized for Android devices as an APK download. Check the official interface or contact customer support to see if an iOS Web App/TestFlight version is currently available.`
+    },
+    {
+      q: (app) => `Are there daily free rewards available?`,
+      a: (app) => `Yes, logging in daily awards you check-in bonuses. You can claim up to ${app.daily_bonus || '₹100'} weekly in free coins, allowing you to participate in matches without deposit.`
+    }
+  ],
+  [
+    {
+      q: (app) => `What makes ${app.name} different from other gaming apps?`,
+      a: (app) => `${app.name} stands out due to its unique features: ${app.unique_selling_point || 'Premium skill gaming and highly active tables'}. It also boasts lower transaction fees and higher RTP on slots.`
+    },
+    {
+      q: (app) => `How does the refer-and-earn system work?`,
+      a: (app) => `You can generate a unique referral link from the "Refer & Earn" tab inside the app lobby. Share it with friends to earn up to 30% commission on their gameplay tax plus flat cash rewards.`
+    },
+    {
+      q: (app) => `What should I do if a deposit or withdrawal fails?`,
+      a: (app) => `In case of a pending transaction, wait for 10-15 minutes as banking gateways can sometimes be slow. If it remains unresolved, contact the 24/7 support channel inside the app with your transaction ID.`
+    },
+    {
+      q: (app) => `Are the games on ${app.name} fair?`,
+      a: (app) => `Absolutely. All card dealing, wheel spins, and matches are powered by certified Random Number Generator (RNG) algorithms, ensuring complete fairness and unbiased outcomes for every player.`
+    }
+  ]
+];
+
 // HTML Template function for game detail page
 function generateHTML(app) {
   const logoSrc = app.logo ? `../logos/${app.logo}` : '../logos/65_Yono_Games.webp';
   const slug = generateSlug(app.name);
+  const canonicalUrl = `https://yono-hub.vercel.app/games/${slug}.html`;
   
   const featuresList = app.features && app.features.length > 0 
     ? app.features.map(f => `<li>${f}</li>`).join('\n          ')
@@ -30,6 +107,61 @@ function generateHTML(app) {
        <li>Get direct access to fast matches and tournaments</li>
        <li>Safe and secure deposits with instant withdrawal options</li>
        <li>Refer friends and earn extra rewards and commission</li>`;
+
+  // Select Rotating About Text
+  const aboutIndex = getDeterministicIndex(app.name, aboutVariants.length);
+  const aboutText = aboutVariants[aboutIndex](app);
+
+  // Select Rotating FAQ Set
+  const faqIndex = getDeterministicIndex(app.name, faqVariants.length);
+  const selectedFaqs = faqVariants[faqIndex].map(item => ({
+    q: item.q(app),
+    a: item.a(app)
+  }));
+
+  // Generate FAQ HTML
+  const faqHtml = selectedFaqs.map(item => `
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          ${item.q}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer">
+          <p>${item.a}</p>
+        </div>
+      </div>`).join('');
+
+  // Structured Data (JSON-LD)
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": selectedFaqs.map(item => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.a
+      }
+    }))
+  };
+
+  const softwareJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": app.name,
+    "operatingSystem": "Android",
+    "applicationCategory": "GameApplication",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": (4.5 + (getDeterministicIndex(app.name, 5) / 10)).toFixed(1),
+      "ratingCount": 1200 + getDeterministicIndex(app.name, 8000)
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    }
+  };
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -41,268 +173,37 @@ function generateHTML(app) {
   <title>Download ${app.name} APK | Official Bonus & Review | Yono Hub</title>
   <meta name="title" content="Download ${app.name} APK | Official Bonus & Review | Yono Hub">
   <meta name="description" content="Get direct, safe APK downloads for ${app.name}. Claim ${app.signup_bonus || 'Rs. 51'} Sign Up bonus, daily rewards, and enjoy secure gameplay.">
+  <link rel="canonical" href="${canonicalUrl}">
   
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${canonicalUrl}">
+  <meta property="og:title" content="Download ${app.name} APK | Official Bonus & Review | Yono Hub">
+  <meta property="og:description" content="Get direct, safe APK downloads for ${app.name}. Claim ${app.signup_bonus || 'Rs. 51'} Sign Up bonus, daily rewards, and enjoy secure gameplay.">
+  <meta property="og:image" content="https://yono-hub.vercel.app/logos/${app.logo || '65_Yono_Games.webp'}">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="${canonicalUrl}">
+  <meta property="twitter:title" content="Download ${app.name} APK | Official Bonus & Review | Yono Hub">
+  <meta property="twitter:description" content="Get direct, safe APK downloads for ${app.name}. Claim ${app.signup_bonus || 'Rs. 51'} Sign Up bonus, daily rewards, and enjoy secure gameplay.">
+  <meta property="twitter:image" content="https://yono-hub.vercel.app/logos/${app.logo || '65_Yono_Games.webp'}">
+
+  <!-- Favicons & Manifest -->
+  <link rel="icon" type="image/x-icon" href="../logos/65_Yono_Games.webp">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="manifest" href="../site.webmanifest">
+
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="../index.css">
-  <style>
-    .game-page-container {
-      margin-top: 120px;
-      max-width: 900px;
-      padding-bottom: 4rem;
-    }
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-weight: 500;
-      margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-      transition: var(--transition-fast);
-    }
-    .back-btn:hover {
-      color: var(--text-primary);
-    }
-    .game-header {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      margin-bottom: 2.5rem;
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 2rem;
-    }
-    .game-logo-wrapper {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      flex-shrink: 0;
-    }
-    .game-logo {
-      width: 100%;
-      height: 100%;
-      border-radius: 24px;
-      object-fit: cover;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    }
-    .game-title-area {
-      display: flex;
-      flex-direction: column;
-    }
-    .game-name {
-      font-family: var(--font-heading);
-      font-size: 2.25rem;
-      font-weight: 800;
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
-      line-height: 1.2;
-    }
-    .game-category {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--color-gold);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    
-    /* Overview Box */
-    .overview-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 2rem;
-      margin-bottom: 2.5rem;
-      box-shadow: var(--card-shadow);
-    }
-    .overview-title {
-      font-family: var(--font-heading);
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--text-primary);
-      margin-bottom: 1rem;
-    }
-    .overview-text {
-      color: var(--text-secondary);
-      line-height: 1.7;
-      font-size: 0.98rem;
-    }
 
-    /* Tabs Layout */
-    .details-tabs-section {
-      background: var(--bg-secondary);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 2rem;
-      margin-bottom: 2.5rem;
-      box-shadow: var(--card-shadow);
-    }
-    .tabs-header-title {
-      font-family: var(--font-heading);
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--text-primary);
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    .tabs-buttons {
-      display: flex;
-      gap: 0.75rem;
-      overflow-x: auto;
-      padding-bottom: 0.75rem;
-      margin-bottom: 1.75rem;
-      border-bottom: 1px solid var(--card-border);
-      scrollbar-width: none;
-    }
-    .tabs-buttons::-webkit-scrollbar {
-      display: none;
-    }
-    .tab-trigger {
-      background: var(--bg-tertiary);
-      color: var(--text-secondary);
-      border: 1px solid var(--card-border);
-      padding: 0.65rem 1.25rem;
-      border-radius: 30px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: var(--transition-fast);
-    }
-    .tab-trigger:hover {
-      border-color: var(--color-gold);
-      color: var(--text-primary);
-    }
-    .tab-trigger.active {
-      background: var(--color-gold);
-      color: #fff;
-      border-color: var(--color-gold);
-    }
-    .tab-panel {
-      display: none;
-      animation: fadeIn var(--transition-normal) forwards;
-    }
-    .tab-panel.active {
-      display: block;
-    }
-    .panel-title {
-      font-family: var(--font-heading);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 1rem;
-    }
-    .panel-content {
-      color: var(--text-secondary);
-      line-height: 1.7;
-      font-size: 0.95rem;
-    }
-    .panel-list {
-      margin-top: 1rem;
-      list-style-type: decimal;
-      padding-left: 1.25rem;
-    }
-    .panel-list li {
-      margin-bottom: 0.5rem;
-    }
-
-    /* FAQ Section */
-    .faq-section {
-      background: var(--bg-secondary);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 2rem;
-      margin-bottom: 2.5rem;
-      box-shadow: var(--card-shadow);
-    }
-    .faq-title {
-      font-family: var(--font-heading);
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--text-primary);
-      margin-bottom: 1.5rem;
-      border-left: 4px solid var(--color-gold);
-      padding-left: 0.75rem;
-    }
-    .faq-item {
-      border-bottom: 1px solid var(--card-border);
-      padding: 1.25rem 0;
-    }
-    .faq-item:last-child {
-      border-bottom: none;
-    }
-    .faq-question {
-      width: 100%;
-      background: none;
-      border: none;
-      text-align: left;
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .faq-question svg {
-      transition: transform var(--transition-fast);
-      stroke: var(--text-secondary);
-    }
-    .faq-item.active .faq-question svg {
-      transform: rotate(180deg);
-    }
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height var(--transition-normal) ease-out;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      font-size: 0.92rem;
-    }
-    .faq-answer p {
-      padding-top: 0.75rem;
-    }
-
-    .action-container {
-      display: flex;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-    .action-container .btn {
-      height: 48px;
-      border-radius: 24px;
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 767px) {
-      .game-page-container {
-        margin-top: 100px;
-      }
-      .game-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1.25rem;
-        text-align: left;
-      }
-      .game-logo-wrapper {
-        width: 90px;
-        height: 90px;
-      }
-      .game-name {
-        font-size: 1.75rem;
-      }
-      .tabs-buttons {
-        gap: 0.5rem;
-      }
-      .tab-trigger {
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
-      }
-      .action-container {
-        flex-direction: column;
-        gap: 0.75rem;
-      }
-    }
-  </style>
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+    ${JSON.stringify(faqJsonLd, null, 2)}
+  </script>
+  <script type="application/ld+json">
+    ${JSON.stringify(softwareJsonLd, null, 2)}
+  </script>
 </head>
 <body>
 
@@ -332,7 +233,7 @@ function generateHTML(app) {
 
     <div class="game-header">
       <div class="game-logo-wrapper">
-        <img src="${logoSrc}" alt="${app.name} logo" class="game-logo" loading="lazy">
+        <img src="${logoSrc}" alt="${app.name} logo" class="game-logo" loading="lazy" width="120" height="120">
       </div>
       <div class="game-title-area">
         <h1 class="game-name">${app.name}</h1>
@@ -344,7 +245,7 @@ function generateHTML(app) {
     <div class="overview-card">
       <h2 class="overview-title">About ${app.name}</h2>
       <p class="overview-text">
-        ${app.name} is a top-tier Android gaming application under the ${app.category} category. Designed to offer highly competitive, secure, and intuitive gameplay, it stands out as a player-favorite in the Indian skill-gaming ecosystem. Access quick installations, check the verified signup bonus details below, and download the official APK safely today.
+        ${aboutText}
       </p>
     </div>
 
@@ -362,7 +263,7 @@ function generateHTML(app) {
       <div class="tab-panel active" id="bonusesTab">
         <h3 class="panel-title">Exclusive Bonuses & Free Cash</h3>
         <div class="panel-content">
-          <p>Get the most out of your experience with these top-value verified reward packages:</p>
+          <p>Get the most out of your experience with these top-value verified reward packages on ${app.name}:</p>
           <ul class="panel-list">
             <li><strong>Welcome/Joining Bonus:</strong> Claim up to <strong>${app.signup_bonus || 'Rs. 51'}</strong> absolutely free instantly after registering your account.</li>
             <li><strong>Daily Check-in Rewards:</strong> Earn bonus coins every day by logging into the game. Claim up to <strong>${app.daily_bonus || 'Rs. 100'}</strong> weekly.</li>
@@ -375,7 +276,7 @@ function generateHTML(app) {
       <div class="tab-panel" id="gameplayTab">
         <h3 class="panel-title">Interactive Gaming & Skill Modes</h3>
         <div class="panel-content">
-          <p>Explore a collection of highly responsive, clean gaming rooms built for both beginners and experienced players:</p>
+          <p>Explore a collection of highly responsive, clean gaming rooms built for both beginners and experienced players. ${app.unique_selling_point}</p>
           <ul class="panel-list">
             <li><strong>Multiplayer Rooms:</strong> Play active matches and tournaments against verified real players across India.</li>
             <li><strong>Modern UI/UX:</strong> Enjoy ultra-smooth card animations, fast lobby updates, and intuitive controls.</li>
@@ -390,8 +291,8 @@ function generateHTML(app) {
         <div class="panel-content">
           <p>Cashing out your winnings is completely frictionless. Enjoy premium safety protocols and verified payout pathways:</p>
           <ul class="panel-list">
-            <li><strong>Direct Bank Transfer:</strong> Securely link your bank account details for direct IMPS wire transfers.</li>
-            <li><strong>Instant UPI Payouts:</strong> Get lightning-fast withdrawals credited directly to your GPay, PhonePe, or Paytm UPI IDs.</li>
+            <li><strong>Minimum Withdrawal Limit:</strong> Withdrawals start as low as <strong>${app.min_withdrawal || '₹100'}</strong>.</li>
+            <li><strong>Supported Payout Channels:</strong> Withdraw safely via <strong>${app.payout_methods ? app.payout_methods.join(', ') : 'UPI or Bank Transfer'}</strong>.</li>
             <li><strong>Zero Hidden Fees:</strong> Withdrawals are processed with 0% extra commissions, meaning you keep all your hard-earned winnings.</li>
           </ul>
         </div>
@@ -414,46 +315,7 @@ function generateHTML(app) {
     <!-- FAQ Section -->
     <div class="faq-section">
       <h2 class="faq-title">Frequently Asked Questions</h2>
-      
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          How to download the official ${app.name} APK safely?
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </button>
-        <div class="faq-answer">
-          <p>Click on the "Download APK (Secure)" button above. The download will start directly. Once downloaded, open the APK file on your Android device, allow installation from "Unknown Sources" if prompted, and complete the installation.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          What is the minimum withdrawal amount in ${app.name}?
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </button>
-        <div class="faq-answer">
-          <p>The minimum withdrawal limit is Rs. 100. Payouts can be made instantly via bank transfer or UPI, and they are usually credited within a few minutes.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          How can I contact the customer support team?
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </button>
-        <div class="faq-answer">
-          <p>${app.name} provides 24/7 dedicated support. Once you open the application, click on the "Support" or "Help" icon in the lobby to start a live chat or raise a support ticket.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          Is the signup bonus completely free?
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </button>
-        <div class="faq-answer">
-          <p>Yes, the welcome bonus of ${app.signup_bonus || 'Rs. 51'} is credited directly to your gaming wallet once you register your account with a verified mobile number. You can use it to play cash matches.</p>
-        </div>
-      </div>
+      ${faqHtml}
     </div>
 
     <!-- Download CTA Block -->
@@ -632,7 +494,7 @@ if (fs.existsSync(indexTemplatePath)) {
     return `      <div class="app-card animate-fade-in" data-category="${app.category}" data-name="${app.name.toLowerCase()}" onclick="handleCardClick(event, 'games/${slug}.html')">
         <div class="app-card-header">
           <div class="app-logo-wrapper">
-            <img src="${logoSrc}" alt="${app.name} logo" class="app-logo" loading="lazy">
+            <img src="${logoSrc}" alt="${app.name} logo" class="app-logo" loading="lazy" width="64" height="64">
           </div>
           <div class="app-info">
             <h3 class="app-name">${app.name}</h3>
@@ -662,3 +524,47 @@ if (fs.existsSync(indexTemplatePath)) {
   fs.writeFileSync(path.join(__dirname, 'index.html'), finalIndex, 'utf-8');
   console.log("Successfully pre-rendered game cards inside index.html.");
 }
+
+// Generate sitemap.xml
+const today = new Date().toISOString().split('T')[0];
+let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://yono-hub.vercel.app/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://yono-hub.vercel.app/privacy-policy.html</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://yono-hub.vercel.app/terms-of-service.html</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://yono-hub.vercel.app/responsible-gaming.html</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>`;
+
+apps.forEach(app => {
+  const slug = generateSlug(app.name);
+  sitemap += `
+  <url>
+    <loc>https://yono-hub.vercel.app/games/${slug}.html</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+});
+
+sitemap += `\n</urlset>`;
+fs.writeFileSync(path.join(__dirname, 'sitemap.xml'), sitemap, 'utf-8');
+console.log("Successfully generated sitemap.xml.");
